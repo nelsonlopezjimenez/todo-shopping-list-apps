@@ -7,7 +7,7 @@
 1. See page 58 and beyond for instructions
 1. npm init -> generate the package.json file with metadata about your app
 1. In order to use ES6+ latest JS features we need Babel modules to convert ES6+ into older versions of JS
-1. Babel: npm install @babel/core @babel/node @babel/preset-env --save-dev
+1. Babel: npm install @babel/core @babel/node @babel/preset-env nodemon --save-dev
 1. edit .babelrc:
 ```
 {
@@ -22,9 +22,9 @@
 ```
 ...
 "scripts" : {
-    "development" : "nodemon"
+    "development": "nodemon --exec ./node_modules/.bin/babel-node index.js",
 }
 ```
-1. npm install express cookie-parser helmet cors
+1. npm install express cookie-parser helmet cors mongoose
 1. helmet: middleware to help secure the app by setting various HTTP headers.
 1. cors: middleware to enable cross-origin resource sharing (CORS)

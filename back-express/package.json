@@ -1,0 +1,31 @@
+{
+  "name": "back-express-with-mongo",
+  "version": "1.0.0",
+  "description": "Backend express server with mongo connect",
+  "main": "index.js",
+  "scripts": {
+    "development": "nodemon --exec ./node_modules/.bin/babel-node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "express",
+    "mongo",
+    "babel"
+  ],
+  "author": "Nelson Lopez",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.22.1",
+    "@babel/node": "^7.22.1",
+    "@babel/preset-env": "^7.22.2",
+    "nodemon": "^2.0.22"
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "mongoose": "^7.2.1"
+  }
+}
