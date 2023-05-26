@@ -84,7 +84,14 @@ app.delete('/api/todos/:id', async (req, res) => {
         console.log(error)
     }
 })
-
+app.put('/api/todos/:id', async (req, res) => {
+    try {
+        let item = await taskModel.findByIdAndUpdate(req.params.id, req.body);
+        await res.json(item);
+    } catch (error) {
+        console.log(error);
+    }
+})
 
 //============ DEFINING THE MODEL
 app.get('/', (req, res) => {

@@ -28,3 +28,12 @@
 1. npm install express cookie-parser helmet cors mongoose
 1. helmet: middleware to help secure the app by setting various HTTP headers.
 1. cors: middleware to enable cross-origin resource sharing (CORS)
+
+## NOTES
+1. To avoid using postman, there is the syntax for curl:
+```
+curl -X GET http://localhost:3001/api/todos = list/display all records
+curl -d "name=nameofitem" -X POST http://localhost:3001/api/todos = create/add new item
+curl -d "name=newName&completed=true" -X PUT http://localhost:3001/api/todos/uniqueId
+curl -X DELETE http://localhost:3001/api/todos/uniqueId
+curl -X GET  http://localhost:3001/api/todos/uniqueId
