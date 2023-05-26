@@ -31,7 +31,8 @@ const taskModel = mongoose.model("Todo", task);
 app.get('/api/todos', async (req, res) => {
     try {
         const list = await taskModel.find();
-        const data = await res.json(list);
+        // const data = await res.json(list);
+        await res.json(list);
     } catch (error) {
         console.log(error);
     }
@@ -43,6 +44,44 @@ app.post('/api/todos', async (req, res) => {
         return res.status(200).json({ mess:"success adding task" })
     } catch (error) {
         console.log(error);
+    }
+});
+const itemById = async (req, res, next, id) => {
+    try {
+        let item = await taskModel.findById(id);
+        if (!item) {
+            return res.status('400').json({
+                error:"item not found"
+            })
+        }
+        req.profile = item;
+        next()
+    } catch (error) {
+        console.log(error);
+    }
+}
+app.get('/api1/todos/:id', async (req, res, next) => {
+    try {
+        itemById(req.params.id);
+        console.log('inside api1')
+    } catch (error) {
+        console.log(error);
+    }
+});
+app.get('/api/todos/:id', async (req, res, next) => {
+    try {
+        let item = await taskModel.findById(req.params.id);
+        await res.json(item)
+    } catch (error) {
+        console.log(error);
+    }
+});
+app.delete('/api/todos/:id', async (req, res) => {
+    try {
+        let item = await taskModel.findByIdAndDelete(req.params.id);
+        res.json(item);
+    } catch (error) {
+        console.log(error)
     }
 })
 
