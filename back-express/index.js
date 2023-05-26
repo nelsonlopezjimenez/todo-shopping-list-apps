@@ -46,28 +46,6 @@ app.post('/api/todos', async (req, res) => {
         console.log(error);
     }
 });
-const itemById = async (req, res, next, id) => {
-    try {
-        let item = await taskModel.findById(id);
-        if (!item) {
-            return res.status('400').json({
-                error:"item not found"
-            })
-        }
-        req.profile = item;
-        next()
-    } catch (error) {
-        console.log(error);
-    }
-}
-app.get('/api1/todos/:id', async (req, res, next) => {
-    try {
-        itemById(req.params.id);
-        console.log('inside api1')
-    } catch (error) {
-        console.log(error);
-    }
-});
 app.get('/api/todos/:id', async (req, res, next) => {
     try {
         let item = await taskModel.findById(req.params.id);

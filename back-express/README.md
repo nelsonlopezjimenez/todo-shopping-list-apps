@@ -37,3 +37,7 @@ curl -d "name=nameofitem" -X POST http://localhost:3001/api/todos = create/add n
 curl -d "name=newName&completed=true" -X PUT http://localhost:3001/api/todos/uniqueId
 curl -X DELETE http://localhost:3001/api/todos/uniqueId
 curl -X GET  http://localhost:3001/api/todos/uniqueId
+
+## Versions
+### 1.0.0 : npm init 
+### 2.0.0 : one file everything, OK
