@@ -17,7 +17,7 @@ const taskModel = mongoose.model("Todo", task);
 
 // ================ ROUTES OR API END POINTS
 
-const listTask = async (req, res) => {
+export const listTask = async (req, res) => {
   try {
     const itemsArr = await taskModel.find();
     await res.json(itemsArr);
@@ -26,7 +26,7 @@ const listTask = async (req, res) => {
   }
 };
 
-const addTask = async (req, res) => {
+export const addTask = async (req, res) => {
   let item = new taskModel(req.body);
   try {
     await item.save();
@@ -36,7 +36,7 @@ const addTask = async (req, res) => {
   }
 };
 
-const getOne = async (req, res) => {
+export const getOne = async (req, res) => {
   // itemById(req, res, next, req.params.id);
   try {
     let item = await taskModel.findById(req.params.id);
@@ -48,7 +48,7 @@ const getOne = async (req, res) => {
   }
 };
 
-const deleteOne = async (req, res) => {
+export const deleteOne = async (req, res) => {
   try {
     let item = await taskModel.findByIdAndDelete(req.params.id);
     res.json(item);
@@ -57,7 +57,7 @@ const deleteOne = async (req, res) => {
   }
 };
 
-const editOne = async (req, res) => {
+export const editOne = async (req, res) => {
   try {
     let item = await taskModel.findByIdAndUpdate(req.params.id, req.body);
     await res.json(item);
@@ -65,11 +65,3 @@ const editOne = async (req, res) => {
     console.log(error);
   }
 };
-
-export {
-    listTask,
-    addTask,
-    getOne,
-    deleteOne,
-    editOne
-}
