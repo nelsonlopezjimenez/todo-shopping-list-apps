@@ -18,6 +18,9 @@ export default function Todo(props) {
 
   const wasEditing = usePrevious(isEditing);
 
+  // =============== NEW
+  // console.log(props); // I had problems with id vs _id
+
   function handleChange(e) {
     setNewName(e.target.value);
   }
@@ -30,6 +33,10 @@ export default function Todo(props) {
     props.editTask(props.id, newName);
     setNewName("");
     setEditing(false);
+  }
+  function deleteTask(id){
+    // alert(id)
+    props.deleteTask(id);
   }
 
   const editingTemplate = (
@@ -90,7 +97,10 @@ export default function Todo(props) {
           <button
             type="button"
             className="btn btn__danger"
-            onClick={() => props.deleteTask(props.id)}
+            onClick={() => {
+              console.log(props.id)
+              deleteTask(props.id)}
+            }
           >
             Delete <span className="visually-hidden">{props.name}</span>
           </button>

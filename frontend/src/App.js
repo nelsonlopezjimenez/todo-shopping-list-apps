@@ -29,6 +29,7 @@ function App(props) {
     try {
       const list = await fetch("http://localhost:3001/api/todos");
       const data = await list.json();
+      // console.log(data)
       return data;
     } catch (error) {
       console.log(error);
@@ -41,7 +42,7 @@ function App(props) {
     });
   }, [props]);
 
-// ==================== NEW 11
+  // ==================== NEW 11
 
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map((task) => {
@@ -56,8 +57,26 @@ function App(props) {
     setTasks(updatedTasks);
   }
 
+  async function deleteTodo(id) {
+    console.log(`line 60 ${id}`);
+    try {
+      const result = await fetch("http://localhost:4444/api/todos/" + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(result);
+      const data = { m: "done" };
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function deleteTask(id) {
-    const remainingTasks = tasks.filter((task) => id !== task.id);
+    console.log('line 75 ' + id)
+    deleteTodo(id).then( (e) => console.log('line 76 deleteTodo' + e));
+    const remainingTasks = tasks.filter((task) => id !== task._id);
     setTasks(remainingTasks);
   }
 
@@ -77,10 +96,10 @@ function App(props) {
     .filter(FILTER_MAP[filter])
     .map((task) => (
       <Todo
-        id={task.id}
+        id={task._id}
         name={task.name}
         completed={task.completed}
-        key={task.id}
+        key={task._id}
         toggleTaskCompleted={toggleTaskCompleted}
         deleteTask={deleteTask}
         editTask={editTask}
@@ -96,8 +115,25 @@ function App(props) {
     />
   ));
 
+  async function addTodo(todo) {
+    try {
+      const item = await fetch("http://localhost:3001/api/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(todo),
+      });
+      console.log(JSON.stringify(todo));
+      const data = await item.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function addTask(name) {
-    const newTask = { id: "todo-" + nanoid(), name: name, completed: false };
+    const newTask = { name: name, completed: false };
+    addTodo(newTask);
     setTasks([...tasks, newTask]);
   }
 
