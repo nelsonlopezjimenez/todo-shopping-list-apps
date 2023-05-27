@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
-import { nanoid } from "nanoid";
+
 
 function usePrevious(value) {
   const ref = useRef();
@@ -47,7 +47,7 @@ function App(props) {
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map((task) => {
       // if this task has the same ID as the edited task
-      if (id === task.id) {
+      if (id === task._id) {
         // use object spread to make a new obkect
         // whose `completed` prop has been inverted
         return { ...task, completed: !task.completed };
@@ -82,7 +82,7 @@ function App(props) {
   function editTask(id, newName) {
     const editedTaskList = tasks.map((task) => {
       // if this task has the same ID as the edited task
-      if (id === task.id) {
+      if (id === task._id) {
         //
         return { ...task, name: newName };
       }
