@@ -60,22 +60,21 @@ function App(props) {
   async function deleteTodo(id) {
     console.log(`line 60 ${id}`);
     try {
-      const result = await fetch("http://localhost:4444/api/todos/" + id, {
+      const result = await fetch("http://localhost:3001/api/todos/" + id, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      console.log(result);
-      const data = { m: "done" };
-      return data;
+      // console.log(result);
+      return result.url;
     } catch (error) {
-      console.log(error);
+      console.log(error); // error triggered when port number was wrong
     }
   }
   function deleteTask(id) {
     console.log('line 75 ' + id)
-    deleteTodo(id).then( (e) => console.log('line 76 deleteTodo' + e));
+    deleteTodo(id).then( (url) => console.log('line 76 ' + url));
     const remainingTasks = tasks.filter((task) => id !== task._id);
     setTasks(remainingTasks);
   }
