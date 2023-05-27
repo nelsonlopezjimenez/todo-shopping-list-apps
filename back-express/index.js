@@ -3,15 +3,14 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
-import * as api from './routes';
+// import * as api from './routes'; v3.1.0
+import { listTask, addTask, getOne, deleteOne, editOne } from './routes'; //v3.2.0
 import { marked } from 'marked';
-// or const { marked } = require('marked');
-
-
 
 // =============== APP DECLARATION
 const app = express();
 
+// ================= PENDING TO EXTRACT OUT
 const html = marked.parse(
     `
     # Express backend server with mongo
@@ -78,17 +77,17 @@ app.use(express.static('public'));
 
 
 // ================ ROUTES OR API END POINTS
-app.get("/api/todos", api.listTask);
+app.get("/api/todos", listTask);
 
-app.post("/api/todos", api.addTask);
+app.post("/api/todos", addTask);
 
-app.get("/api/todos/:id", api.getOne);
+app.get("/api/todos/:id", getOne);
 
-app.delete("/api/todos/:id", api.deleteOne);
+app.delete("/api/todos/:id", deleteOne);
 
-app.put("/api/todos/:id", api.editOne);
+app.put("/api/todos/:id", editOne);
 
-app.get("/tmp", (req, res) => {
+app.get("/", (req, res) => {
 //   res.render('index.html');
   res.send(html);
 });

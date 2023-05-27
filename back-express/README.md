@@ -49,4 +49,8 @@ curl -X GET  http://localhost:3001/api/todos/uniqueId
 1. app.get(URL/:id, getOne),
 1. app.delete(URL/:id, deleteOne), 
 1. app.put(URL/:id, editOne)
+#### 3.1.0
+callback routes extracted to routes.js file. I had to transfer also the mongo setup because of the model. Callback objects imported * as api and accessed as api.listask, api.addTask, api.getOne, api.deleteOne, api.editOne.
+#### 3.2.0
+Import syntax for api call changed to destructuring option: import { listTask, addTask, getOne, deleteOne, editOne } and used straight in index.js. Also, marked added to the project to be able to render md files. The html obj with the whole code for README.md passed as a string render at the root route '/'. I had to delete the pre code with 3 backticks, as well as curly braces, straight braces, colons. Pending import the code highligter library. 
 
