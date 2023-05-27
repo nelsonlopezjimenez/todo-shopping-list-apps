@@ -1,0 +1,127 @@
+     1	import React, { useState, useEffect } from "react";
+     2	import Form from "./components/Form";
+     3	import Todo from "./components/Todo";
+     4	
+     5	function App(props) {
+     6	  const [tasks, setTasks] = useState([]);
+     7	  
+     8	  async function fetchTodos() {
+     9	    try {
+    10	      const list = await fetch('http://localhost:4444/api/todos');
+    11	      const data = await list.json();
+    12	      return data;
+    13	    } catch (error) {
+    14	      console.log(error);
+    15	    }
+    16	  }
+    17	
+    18	  useEffect( () => {
+    19	    fetchTodos().then( (data) => {
+    20	      setTasks(data)
+    21	    })
+    22	  }, [props] ); 
+    23	
+    24	  function toggleTask(id) {
+    25	    const updatedTasks = tasks.map((task) => {
+    26	      // if this task has the same ID as the edited task
+    27	      if (id === task.id) {
+    28	        // use object spread to make a new object
+    29	        // whose `completed` prop has been inverted
+    30	        return { ...task, completed: !task.completed };
+    31	      }
+    32	      return task;
+    33	    });
+    34	    setTasks(updatedTasks);
+    35	  }
+    36	
+    37	  const taskList = tasks.map((task) => (
+    38	    <Todo
+    39	      {...task}
+    40	      key={task.id}
+    41	      toggleTask={toggleTask}
+    42	      deleteTask={deleteTask}
+    43	      editTask={editTask}
+    44	    />
+    45	  ));
+    46	
+    47	  function tempAddTask(name) {
+    48	    alert(name);
+    49	  }
+    50	
+    51	  async function addTodo (todo){
+    52	    try {
+    53	      const item = await fetch('http://localhost:4444/api/todos', {
+    54	        method: 'POST',
+    55	        headers: {
+    56	          'Content-Type': 'application/json'
+    57	        },
+    58	        body: JSON.stringify(todo)
+    59	      });
+    60	      console.log(JSON.stringify(todo));
+    61	      const data = await item.json();
+    62	      return data;
+    63	    } catch (error) {
+    64	      console.log(error);
+    65	    }
+    66	  }
+    67	  function addTask(name) {
+    68	    const newTask = { name: name, completed: false, id: new Date() };
+    69	    addTodo(newTask).then( data => {
+    70	      setTasks( tasks => [...tasks, newTask] )
+    71	    })
+    72	    // setTasks([...tasks, newTask]);
+    73	  }
+    74	
+    75	  async function deleteTodo(id){
+    76	    console.log(`line 76 ${id}`);
+    77	    try {
+    78	      const result = await fetch('http://localhost:4444/api/todos/' + id, {
+    79	        method: "DELETE",
+    80	        headers: {
+    81	          'Content-Type': 'application/json'
+    82	        }
+    83	      });
+    84	      const data = await result.json({'m':'done'});
+    85	      return data;
+    86	    } catch (error) {
+    87	      console.log(error);
+    88	    }
+    89	  }
+    90	  function deleteTask(id) {
+    91	    console.log(id);
+    92	    // deleteTodo(id).then(d => console.log('line92'))
+    93	    deleteTodo(id).then( () => {
+    94	      const remainingTasks = tasks.filter((task) => id !== task.id);
+    95	      setTasks(remainingTasks);
+    96	    })
+    97	  }
+    98	
+    99	  function getOneTodo(id){
+   100	    console.log(id);
+   101	  }
+   102	
+   103	  function editTask(id, newName) {
+   104	    const editTaskList = tasks.map((task) => {
+   105	      if (id === task.id) {
+   106	        return { ...task, name: newName };
+   107	      }
+   108	      return task;
+   109	    });
+   110	    setTasks(editTaskList);
+   111	  }
+   112	  return (
+   113	    <div className="todoapp stack-large">
+   114	      <Form addTask={addTask} />
+   115	      {/* <Form addTask={tempAddTask} /> */}
+   116	      <div className="filters btn-group stack-exception"></div>
+   117	      <h2 id="list-heading" tabIndex="-1"></h2>
+   118	      <ul
+   119	        className="todo-list stack-large stack-exception"
+   120	        aria-labelledby="list-heading">
+   121	        {taskList}
+   122	      </ul>
+   123	    </div>
+   124	  );
+   125	}
+   126	
+   127	export default App;

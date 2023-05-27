@@ -13,6 +13,4 @@ router.route('/api/todos/:taskId')
    .delete(itemCtrl.deleteOne)
    .put(itemCtrl.editOne);
 
-// router.param('taskId', itemCtrl.itemById)
-
 export default router;
