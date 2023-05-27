@@ -71,7 +71,29 @@ root/
   |-- .env
   |-- public/index.html
   |-- src
-      | -- index.js
-      | -- routes.js
-      | -- taskModel.js
-      | -- README.md
+      |-- index.js
+      |-- routes.js
+      |-- taskModel.js
+      |-- README.md
+```
+1. 4.2.0
+```
+root/
+  |-- node_modules/
+  |-- config
+  |-- package.json
+  |-- .babelrc
+  |-- .env
+  |-- public/index.html
+  |-- src
+      |-- controllers/
+         |-- item.controller.js
+      |-- helpers/
+         |-- dbErrorHandler.js
+      |-- models/
+         |-- item.model.js
+      |-- routes/  
+         |-- item.routes.js
+      |-- index.js
+      |-- README.md
+```

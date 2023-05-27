@@ -1,5 +1,5 @@
 // import  taskModel  from './taskModel';
-import  { taskModel }  from './taskModel';
+import  { taskModel }  from '../models/taskModel';
 
 // ================ ROUTES OR API END POINTS
 

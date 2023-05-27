@@ -4,7 +4,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
 // import * as api from './routes'; v3.1.0
-import { listTask, addTask, getOne, deleteOne, editOne } from './routes'; //v3.2.0
+import { listTask, addTask, getOne, deleteOne, editOne } from './routes/routes'; 
 import { marked } from 'marked';
 
 // =============== APP DECLARATION
