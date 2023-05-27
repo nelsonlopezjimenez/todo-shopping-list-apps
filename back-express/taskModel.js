@@ -13,10 +13,8 @@ const task = new Schema({
   name: String,
   completed: Boolean,
 });
-// const taskModel = mongoose.model("Todo", task);
 
-export default mongoose.model('Todo', task)
-
+export const taskModel = mongoose.model("Todo", task);
 
 // import mongoose from 'mongoose'
 // import crypto from 'crypto'

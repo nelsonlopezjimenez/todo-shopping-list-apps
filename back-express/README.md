@@ -58,3 +58,4 @@ Import syntax for api call changed to destructuring option: import { listTask, a
 
 ### 3.3.0
 1. 3.3.1 : mongoose setup taken from routes.js to taskModel.js and exported as "export default mongoose.model('Todo', task)" and imported into routes.js as 'import  taskModel  from './taskModel';'
+1. 3.3.2 export "export const taskModel = mongoose.model("Todo", task);" and routes.js/import import { taskModel } as well as just imort taskModel both worked. On the other hand, "const taskModel ...." then export default taskModel did not work. 
