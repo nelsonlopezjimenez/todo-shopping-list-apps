@@ -21,8 +21,27 @@ const FILTER_MAP = {
 const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function App(props) {
-  const [tasks, setTasks] = useState(props.tasks);
+  const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("All");
+
+  // ================  NEW 10
+  async function fetchTodos() {
+    try {
+      const list = await fetch("http://localhost:3001/api/todos");
+      const data = await list.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchTodos().then((data) => {
+      setTasks(data);
+    });
+  }, [props]);
+
+// ==================== NEW 11
 
   function toggleTaskCompleted(id) {
     const updatedTasks = tasks.map((task) => {
