@@ -3,8 +3,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import helmet from "helmet";
-// import * as api from './routes'; v3.1.0
-import { listTask, addTask, getOne, deleteOne, editOne } from './routes/routes'; 
+import itemRouter from './routes/routes'
 import { marked } from 'marked';
 
 // =============== APP DECLARATION
@@ -86,17 +85,10 @@ app.use(cookieParser());
 app.use(helmet());
 app.use(express.static('public'));
 
+// ============== API ENDPOINTS
+app.use('/', itemRouter);
 
-// ================ ROUTES OR API END POINTS
-app.get("/api/todos", listTask);
 
-app.post("/api/todos", addTask);
-
-app.get("/api/todos/:id", getOne);
-
-app.delete("/api/todos/:id", deleteOne);
-
-app.put("/api/todos/:id", editOne);
 
 app.get("/", (req, res) => {
 //   res.render('index.html');

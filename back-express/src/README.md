@@ -97,3 +97,4 @@ root/
       |-- index.js
       |-- README.md
 ```
+1. 4.3.0 : using dotenv and config.js file at the root. Problems with syntax when exporting each individual callbak or export default and destructuring

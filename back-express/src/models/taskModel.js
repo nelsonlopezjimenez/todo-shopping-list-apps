@@ -14,4 +14,5 @@ const task = new Schema({
   completed: Boolean,
 });
 
+// export default mongoose.model("Todo", task);
 export const taskModel = mongoose.model("Todo", task);
