@@ -54,5 +54,7 @@ callback routes extracted to routes.js file. I had to transfer also the mongo se
 #### 3.2.0
 Import syntax for api call changed to destructuring option: import { listTask, addTask, getOne, deleteOne, editOne } and used straight in index.js. Also, marked added to the project to be able to render md files. The html obj with the whole code for README.md passed as a string render at the root route '/'. I had to delete the pre code with 3 backticks, as well as curly braces, straight braces, colons. Pending import the code highligter library. 
 
-### 3.2.1
-export from { listTask, addTask, getOne, deleteOne, editOne } to export.listTasks, export.addTask, export.getOne, etc
+1. 3.2.1 export from { listTask, addTask, getOne, deleteOne, editOne } to export.listTasks, export.addTask, export.getOne, etc
+
+### 3.3.0
+1. 3.3.1 : mongoose setup taken from routes.js to taskModel.js and exported as "export default mongoose.model('Todo', task)" and imported into routes.js as 'import  taskModel  from './taskModel';'
