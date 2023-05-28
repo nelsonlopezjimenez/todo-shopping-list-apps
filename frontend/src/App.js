@@ -3,7 +3,6 @@ import Form from "./components/Form";
 import FilterButton from "./components/FilterButton";
 import Todo from "./components/Todo";
 
-
 function usePrevious(value) {
   const ref = useRef();
   useEffect(() => {
@@ -73,18 +72,39 @@ function App(props) {
     }
   }
   function deleteTask(id) {
-    console.log('line 75 ' + id)
-    deleteTodo(id).then( (url) => console.log('line 76 ' + url));
+    console.log("line 75 " + id);
+    deleteTodo(id).then((url) => console.log("line 76 " + url));
     const remainingTasks = tasks.filter((task) => id !== task._id);
     setTasks(remainingTasks);
   }
 
+  async function editTodo(updatedTask) {
+    console.log(updatedTask);
+    try {
+      const result = await fetch("http://localhost:3001/api/todos/" + updatedTask._id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask)
+      });
+      console.log(result.url);
+      return result.url;
+    } catch (error) {
+      console.log(error); // error triggered when port number was wrong
+    }
+  }
+
   function editTask(id, newName) {
+    let updatedTask;
     const editedTaskList = tasks.map((task) => {
       // if this task has the same ID as the edited task
       if (id === task._id) {
         //
-        return { ...task, name: newName };
+        updatedTask = { ...task, name: newName }
+        editTodo(updatedTask);
+        // return { ...task, name: newName };
+        return updatedTask;
       }
       return task;
     });
