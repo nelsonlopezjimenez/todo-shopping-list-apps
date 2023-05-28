@@ -44,3 +44,8 @@ By participating in and contributing to our projects and discussions, you acknow
 ## License
 
 This project is licensed under the [LICENSE](LICENSE).
+
+# VERSIONS
+
+## 0.1.0 TODOMATIC download from MDN web site
+## 1.0.0 TODOMATIC api fetch routes added: list/display, add/create, display/getOne, deleteOne, editOne.

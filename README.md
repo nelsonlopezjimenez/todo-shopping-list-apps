@@ -25,3 +25,9 @@ git rm --cached todo-react to untrack the todo-react orignal and then to clone m
 
 ## STEPS
 1. created github repository: todo-shopping-list-apps; public; added .gitignore VisualStudio template; license GNU General Public License v3.0; cloned to my-local-repository, first at get2laptop
+
+# last versions
+
+## todo-shopping-list-app 1.0.0 f67c61b
+## BACK-EXPRESS - 4.4.0
+## FRONTEND TODOMATIC - 1.0.0
