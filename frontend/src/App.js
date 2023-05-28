@@ -49,6 +49,7 @@ function App(props) {
       if (id === task._id) {
         // use object spread to make a new obkect
         // whose `completed` prop has been inverted
+        editTodo({...task, completed: !task.completed})
         return { ...task, completed: !task.completed };
       }
       return task;

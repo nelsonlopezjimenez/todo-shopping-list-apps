@@ -98,4 +98,4 @@ root/
       |-- README.md
 ```
 1. 4.3.0 : using dotenv and config.js file at the root. Problems with syntax when exporting each individual callbak or export default and destructuring
-1. 4.4.0 : added fronend react
+1. 4.4.0 : added frontend react
