@@ -5,6 +5,7 @@
 ### 1.0.0 Beginning our React todo list
 ### 1.1.0 Full app before adding events ONEFILE
 ### 2.0.0 Events and state added, ONEFILE.
+### 2.2.0 Functions addTask, toggle task, delete task ONEFILE
 ### 2.1.0 Componentizing our React app
 
 ## from https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning
@@ -105,8 +106,15 @@ function Form(props) {
 ```
 We are setting the initial name value as "Use hooks!"; we are defining a function whose job is to modify name, called setName(); useState() returns these two things.
 1. Putting it all together: Adding a task
+```
+in App(props){ 
+    const [tasks, setTasks] = useState(props.tasks);
+    return (
+        ....
+    )
+}
 1. Detour: counting tasks
 1. Completing task
 1. Deleting task
 1. Deleting task from state and UI
-1. Summary
+1. Summary: How React deals with events and handles state. How to implement add tasks, delete tasks, and toggles tasks as completed. 
