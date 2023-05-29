@@ -6,7 +6,8 @@
 ### 1.1.0 Full app before adding events ONEFILE
 ### 2.0.0 Events and state added, ONEFILE.
 ### 2.2.0 Functions addTask, toggle task, delete task ONEFILE
-### 2.1.0 Componentizing our React app
+### 2.3.0 Added editTask
+
 
 ## from https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning
 
@@ -113,8 +114,18 @@ in App(props){
         ....
     )
 }
+```
 1. Detour: counting tasks
 1. Completing task
 1. Deleting task
 1. Deleting task from state and UI
 1. Summary: How React deals with events and handles state. How to implement add tasks, delete tasks, and toggles tasks as completed. 
+
+# React interactivity: Editing, filtering, conditional rendering
+1. Editing the name of a task
+1. A UI for editing
+1. Conditional rendering
+1. Toggling the <Todo /> templates
+1. Editing from the UI
+1. Back to the filter buttons
+1. Summary
