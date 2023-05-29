@@ -7,6 +7,7 @@
 ### 2.0.0 Events and state added, ONEFILE.
 ### 2.2.0 Functions addTask, toggle task, delete task ONEFILE
 ### 2.3.0 Added editTask
+### 3.0.0 Integrate with backend express/mongo server
 
 
 ## from https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning
@@ -127,5 +128,6 @@ in App(props){
 1. Conditional rendering
 1. Toggling the <Todo /> templates
 1. Editing from the UI
-1. Back to the filter buttons
-1. Summary
+1. Back to the filter buttons NOT DONE YET
+1. Summary: The app is now functionally almost complete: add/delete/edit/togglecomplete all added. Pending filter buttons.
+

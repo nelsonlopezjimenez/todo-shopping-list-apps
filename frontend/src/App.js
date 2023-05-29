@@ -1,5 +1,133 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
+function App(props) {
+  const [tasks, setTasks] = useState([]);
+
+  const URL = "http://localhost:3001/api/todos";
+  async function fetchTodos() {
+    try {
+      const list = await fetch(URL);
+      const data = await list.json(); console.log(data)
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    fetchTodos().then((data) => setTasks(data));
+  }, [props]);
+
+  function toggleTaskCompleted(id) {
+    const updatedTasks = tasks.map((task) => {
+      // if this task has the same ID as the edited task
+      if (id === task._id) {
+        // use object spread to make a new object
+        // whose `completed` prop has been inverted
+        return { ...task, completed: !task.completed };
+      }
+      return task;
+    });
+    setTasks(updatedTasks);
+  }
+
+  const taskList = tasks.map((task) => {
+    return (
+      <Todo
+        key={task._id}
+        id={task._id}
+        name={task.name}
+        completed={task.completed}
+        toggleTaskCompleted={toggleTaskCompleted}
+        deleteTask={deleteTask}
+        editTask={editTask}
+      />
+    );
+  });
+  async function addTodo(todo){
+    try {
+        const item = await fetch(URL, {
+            method: 'POST', 
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(todo)
+        });
+        const data = await item.json();
+        return data;
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+
+  function addTask(name) {
+    const newTask = { name: name, completed: false };
+    addTodo(newTask).then( data => setTasks([...tasks, newTask]));
+  }
+  //   const taskList = props.tasks.map((task) => <Todo />); // Rendering with iterations
+
+  const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
+  const headingText = `${taskList.length} ${tasksNoun} remaining`;
+
+  async function deleteTodo(id) {
+    try {
+        const result = await fetch(URL + id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return result;
+    } catch (error) {
+        console.log(error);
+    }
+  }
+
+  function deleteTask(id) {
+    deleteTodo(id).then( () => {
+        const remainingTasks = tasks.filter((task) => id !== task.id);
+        setTasks(remainingTasks);
+    })
+  }
+  async function editTodo (id, newName){
+    console.log(id, newName)
+  }
+  function editTask(id, newName) {
+    const editedTaskList = tasks.map((task) => {
+      // if this task has the same ID as the edited task
+      if (id === task.id) {
+        //
+        return { ...task, name: newName };
+      }
+      return task;
+    });
+    setTasks(editedTaskList);
+  }
+
+  return (
+    <div className="todoapp stack-large">
+      <h1>TodoMatic</h1>
+
+      <Form addTask={addTask} />
+
+      <div className="filters btn-group stack-exception">
+        <FilterButton />
+        <FilterButton />
+        <FilterButton />
+      </div>
+
+      <h2 id="list-heading">{headingText}</h2>
+      <ul
+        role="list"
+        className="todo-list stack-large stack-exception"
+        aria-labelledby="list-heading"
+      >
+        {taskList}
+      </ul>
+    </div>
+  );
+}
 function FilterButton(props) {
   return (
     <button type="button" className="btn toggle-btn" aria-pressed="true">
@@ -61,8 +189,12 @@ function Todo(props) {
         <label className="todo-label" htmlFor={props.id}>
           New name for {props.name}
         </label>
-        <input id={props.id} className="todo-text" type="text" 
-        value={newName} onChange={handleChange}
+        <input
+          id={props.id}
+          className="todo-text"
+          type="text"
+          value={newName}
+          onChange={handleChange}
         />
       </div>
       <div className="btn-group">
@@ -74,14 +206,14 @@ function Todo(props) {
           Cancel
           <span className="visually-hidden">renaming {props.name}</span>
         </button>
-        <button type="submit" className="btn btn__primary todo-edit" >
+        <button type="submit" className="btn btn__primary todo-edit">
           Save
           <span className="visually-hidden">new name for {props.name}</span>
         </button>
       </div>
     </form>
   );
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
     props.editTask(props.id, newName);
     setNewName("");
@@ -118,78 +250,4 @@ function Todo(props) {
   return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
 }
 
-function App(props) {
-  const [tasks, setTasks] = useState(props.tasks);
-
-  function addTask(name) {
-    const newTask = { name: name, completed: false };
-    setTasks([...tasks, newTask]);
-  }
-  //   const taskList = props.tasks.map((task) => <Todo />); // Rendering with iterations
-  const taskList = tasks.map((task) => {
-    return (
-      <Todo
-        key={task.id}
-        id={task.id}
-        name={task.name}
-        completed={task.completed}
-        toggleTaskCompleted={toggleTaskCompleted}
-        deleteTask={deleteTask}
-        editTask={editTask}
-      />
-    );
-  });
-  const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
-  const headingText = `${taskList.length} ${tasksNoun} remaining`;
-  function toggleTaskCompleted(id) {
-    const updatedTasks = tasks.map((task) => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
-        // use object spread to make a new object
-        // whose `completed` prop has been inverted
-        return { ...task, completed: !task.completed };
-      }
-      return task;
-    });
-    setTasks(updatedTasks);
-  }
-  function deleteTask(id) {
-    const remainingTasks = tasks.filter((task) => id !== task.id);
-    setTasks(remainingTasks);
-  }
-  function editTask(id, newName) {
-    const editedTaskList = tasks.map((task) => {
-      // if this task has the same ID as the edited task
-      if (id === task.id) {
-        //
-        return { ...task, name: newName };
-      }
-      return task;
-    });
-    setTasks(editedTaskList);
-  }
-
-  return (
-    <div className="todoapp stack-large">
-      <h1>TodoMatic</h1>
-
-      <Form addTask={addTask} />
-
-      <div className="filters btn-group stack-exception">
-        <FilterButton />
-        <FilterButton />
-        <FilterButton />
-      </div>
-
-      <h2 id="list-heading">{headingText}</h2>
-      <ul
-        role="list"
-        className="todo-list stack-large stack-exception"
-        aria-labelledby="list-heading"
-      >
-        {taskList}
-      </ul>
-    </div>
-  );
-}
 export default App;
