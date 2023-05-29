@@ -13,6 +13,10 @@ function FilterButton(props) {
 function Form(props) {
   const [name, setName] = useState("Use hooks!");
 
+  function handleChange(e){
+    console.log("Typing!");
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     alert("Hello World!!!");
@@ -31,6 +35,7 @@ function Form(props) {
         name="text"
         autoComplete="off"
         value={name}
+        onChange={handleChange}
       />
       <button type="submit" className="btn btn__primary btn__lg">
         Add
