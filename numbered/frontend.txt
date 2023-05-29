@@ -1,0 +1,275 @@
+     1	import React, { useState, useEffect } from "react"; //VERSION 3.2.0
+     2	
+     3	function App(props) {
+     4	  const [tasks, setTasks] = useState([]);
+     5	
+     6	  const URL = "http://localhost:3001/api/todos/";
+     7	
+     8	  async function fetchTodos() {
+     9	    try {
+    10	      const list = await fetch(URL);
+    11	      const data = await list.json();
+    12	      console.log(data);
+    13	      return data;
+    14	    } catch (error) {
+    15	      console.log(error);
+    16	    }
+    17	  }
+    18	
+    19	  useEffect(() => {
+    20	    fetchTodos().then((data) => setTasks(data));
+    21	  }, [props]);
+    22	
+    23	  function toggleTaskCompleted(id) {
+    24	    const updatedTasks = tasks.map((task) => {
+    25	      // if this task has the same ID as the edited task
+    26	      if (id === task._id) {
+    27	        // use object spread to make a new object
+    28	        // whose `completed` prop has been inverted
+    29	        editTodo({...task, completed: !task.completed});
+    30	        return { ...task, completed: !task.completed };
+    31	      }
+    32	      return task;
+    33	    });
+    34	    setTasks(updatedTasks);
+    35	  }
+    36	
+    37	  const taskList = tasks.map((task) => {
+    38	    return (
+    39	      <Todo
+    40	        key={task._id}
+    41	        id={task._id}
+    42	        name={task.name}
+    43	        completed={task.completed}
+    44	        toggleTaskCompleted={toggleTaskCompleted}
+    45	        deleteTask={deleteTask}
+    46	        editTask={editTask}
+    47	      />
+    48	    );
+    49	  });
+    50	  async function addTodo(todo) {
+    51	    try {
+    52	      const item = await fetch(URL, {
+    53	        method: "POST",
+    54	        headers: {
+    55	          "Content-Type": "application/json",
+    56	        },
+    57	        body: JSON.stringify(todo),
+    58	      });
+    59	      const data = await item.json();
+    60	      return data;
+    61	    } catch (error) {
+    62	      console.log(error);
+    63	    }
+    64	  }
+    65	
+    66	  function addTask(name) {
+    67	    const newTask = { name: name, completed: false };
+    68	    addTodo(newTask);
+    69	    setTasks([...tasks, newTask]);
+    70	  }
+    71	  //   const taskList = props.tasks.map((task) => <Todo />); // Rendering with iterations
+    72	
+    73	  const tasksNoun = taskList.length !== 1 ? "tasks" : "task";
+    74	  const headingText = `${taskList.length} ${tasksNoun} remaining`;
+    75	
+    76	  async function deleteTodo(id) {
+    77	    try {
+    78	      const result = await fetch(URL + id, {
+    79	        method: "DELETE",
+    80	        headers: {
+    81	          "Content-Type": "application/json",
+    82	        },
+    83	      });
+    84	      return result.url;
+    85	    } catch (error) {
+    86	      console.log(error);
+    87	    }
+    88	  }
+    89	
+    90	  function deleteTask(id) {
+    91	    deleteTodo(id).then((url) => {
+    92	      console.log(url);
+    93	    });
+    94	    const remainingTasks = tasks.filter((task) => id !== task._id);
+    95	    setTasks(remainingTasks);
+    96	  }
+    97	
+    98	  async function editTodo(updatedTask) {
+    99	    console.log(updatedTask);
+   100	    try {
+   101	      const result = await fetch(URL + updatedTask._id, {
+   102	        method: "PUT",
+   103	        headers: {
+   104	          "Content-Type": "application/json",
+   105	        },
+   106	        body: JSON.stringify(updatedTask),
+   107	      });
+   108	      console.log(result.url);
+   109	      return result.url;
+   110	    } catch (error) {
+   111	      console.log(error); // error triggered when port number was wrong
+   112	    }
+   113	  }
+   114	  function editTask(id, newName) {
+   115	    let updatedTask;
+   116	    const editedTaskList = tasks.map((task) => {
+   117	      // if this task has the same ID as the edited task
+   118	      if (id === task._id) {
+   119	        //
+   120	        updatedTask = { ...task, name: newName };
+   121	        editTodo(updatedTask);
+   122	        // return { ...task, name: newName };
+   123	        return updatedTask;
+   124	      }
+   125	      return task;
+   126	    });
+   127	    setTasks(editedTaskList);
+   128	  }
+   129	
+   130	  return (
+   131	    <div className="todoapp stack-large">
+   132	      <h1>TodoMatic</h1>
+   133	
+   134	      <Form addTask={addTask} />
+   135	
+   136	      <div className="filters btn-group stack-exception">
+   137	        <FilterButton />
+   138	        <FilterButton />
+   139	        <FilterButton />
+   140	      </div>
+   141	
+   142	      <h2 id="list-heading">{headingText}</h2>
+   143	      <ul
+   144	        role="list"
+   145	        className="todo-list stack-large stack-exception"
+   146	        aria-labelledby="list-heading"
+   147	      >
+   148	        {taskList}
+   149	      </ul>
+   150	    </div>
+   151	  );
+   152	}
+   153	function FilterButton(props) {
+   154	  return (
+   155	    <button type="button" className="btn toggle-btn" aria-pressed="true">
+   156	      <span className="visually-hidden">Show </span>
+   157	      <span>all </span>
+   158	      <span className="visually-hidden"> tasks</span>
+   159	    </button>
+   160	  );
+   161	}
+   162	
+   163	function Form(props) {
+   164	  const [name, setName] = useState("");
+   165	
+   166	  function handleChange(e) {
+   167	    // console.log("Typing!");
+   168	    setName(e.target.value);
+   169	  }
+   170	
+   171	  function handleSubmit(e) {
+   172	    e.preventDefault();
+   173	    // alert("Hello World!!!");
+   174	    console.log(name);
+   175	    props.addTask(name);
+   176	  }
+   177	  return (
+   178	    <form onSubmit={handleSubmit}>
+   179	      <h2 className="label-wrapper">
+   180	        <label htmlFor="new-todo-input" className="label__lg">
+   181	          What needs to be done?
+   182	        </label>
+   183	      </h2>
+   184	      <input
+   185	        type="text"
+   186	        id="new-todo-input"
+   187	        className="input input__lg"
+   188	        name="text"
+   189	        autoComplete="off"
+   190	        value={name}
+   191	        onChange={handleChange}
+   192	      />
+   193	      <button type="submit" className="btn btn__primary btn__lg">
+   194	        Add
+   195	      </button>
+   196	    </form>
+   197	  );
+   198	}
+   199	
+   200	function Todo(props) {
+   201	  const [isEditing, setEditing] = useState(false);
+   202	  const [newName, setNewName] = useState("");
+   203	
+   204	  function handleChange(e) {
+   205	    setNewName(e.target.value);
+   206	  }
+   207	
+   208	  const editingTemplate = (
+   209	    <form className="stack-small" onSubmit={handleSubmit}>
+   210	      <div className="form-group">
+   211	        <label className="todo-label" htmlFor={props.id}>
+   212	          New name for {props.name}
+   213	        </label>
+   214	        <input
+   215	          id={props.id}
+   216	          className="todo-text"
+   217	          type="text"
+   218	          value={newName}
+   219	          onChange={handleChange}
+   220	        />
+   221	      </div>
+   222	      <div className="btn-group">
+   223	        <button
+   224	          type="button"
+   225	          className="btn todo-cancel"
+   226	          onClick={() => setEditing(false)}
+   227	        >
+   228	          Cancel
+   229	          <span className="visually-hidden">renaming {props.name}</span>
+   230	        </button>
+   231	        <button type="submit" className="btn btn__primary todo-edit">
+   232	          Save
+   233	          <span className="visually-hidden">new name for {props.name}</span>
+   234	        </button>
+   235	      </div>
+   236	    </form>
+   237	  );
+   238	  function handleSubmit(e) {
+   239	    e.preventDefault();
+   240	    props.editTask(props.id, newName);
+   241	    setNewName("");
+   242	    setEditing(false);
+   243	  }
+   244	  const viewTemplate = (
+   245	    <div className="stack-small">
+   246	      <div className="c-cb">
+   247	        <input
+   248	          id={props.id}
+   249	          type="checkbox"
+   250	          defaultChecked={props.completed}
+   251	          onChange={() => props.toggleTaskCompleted(props.id)}
+   252	        />
+   253	        <label className="todo-label" htmlFor={props.id}>
+   254	          {props.name}
+   255	        </label>
+   256	      </div>
+   257	      <div className="btn-group">
+   258	        <button type="button" className="btn" onClick={() => setEditing(true)}>
+   259	          Edit <span className="visually-hidden">{props.name}</span>
+   260	        </button>
+   261	        <button
+   262	          type="button"
+   263	          className="btn btn__danger"
+   264	          onClick={() => props.deleteTask(props.id)}
+   265	        >
+   266	          Delete <span className="visually-hidden">{props.name}</span>
+   267	        </button>
+   268	      </div>
+   269	    </div>
+   270	  );
+   271	
+   272	  return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
+   273	}
+   274	
+   275	export default App;

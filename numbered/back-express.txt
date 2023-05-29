@@ -1,0 +1,79 @@
+     1	// ========= IMPORTS  VERSION 2.0.0
+     2	import express from 'express';
+     3	import cookieParser from 'cookie-parser';
+     4	import cors from 'cors';
+     5	import helmet from 'helmet';
+     6	import mongoose from 'mongoose';
+     7	
+     8	// =============== APP DECLARATION
+     9	const app = express();
+    10	
+    11	
+    12	app.use(express.json());
+    13	app.use(express.urlencoded({ extended: true }))
+    14	app.use(cors());
+    15	app.use(cookieParser());
+    16	app.use(helmet());
+    17	
+    18	// ========== MONGO SETUP
+    19	mongoose.Promise = global.Promise 
+    20	mongoose.connect('mongodb://localhost/todomatic', {})
+    21	    .then( () => console.log("conected to mongo port 27017"));
+    22	
+    23	const Schema = mongoose.Schema;
+    24	const task = new Schema({
+    25	    name: String,
+    26	    completed: Boolean
+    27	});
+    28	const taskModel = mongoose.model("Todo", task);
+    29	
+    30	// ================ ROUTES OR API END POINTS
+    31	app.get('/api/todos', async (req, res) => {
+    32	    try {
+    33	        const list = await taskModel.find();
+    34	        // const data = await res.json(list);
+    35	        await res.json(list);
+    36	    } catch (error) {
+    37	        console.log(error);
+    38	    }
+    39	});
+    40	app.post('/api/todos', async (req, res) => {
+    41	    let user = new taskModel(req.body);
+    42	    try {
+    43	        await user.save();
+    44	        return res.status(200).json({ mess:"success adding task" })
+    45	    } catch (error) {
+    46	        console.log(error);
+    47	    }
+    48	});
+    49	app.get('/api/todos/:id', async (req, res, next) => {
+    50	    try {
+    51	        let item = await taskModel.findById(req.params.id);
+    52	        await res.json(item)
+    53	    } catch (error) {
+    54	        console.log(error);
+    55	    }
+    56	});
+    57	app.delete('/api/todos/:id', async (req, res) => {
+    58	    try {
+    59	        let item = await taskModel.findByIdAndDelete(req.params.id);
+    60	        res.json(item);
+    61	    } catch (error) {
+    62	        console.log(error)
+    63	    }
+    64	})
+    65	app.put('/api/todos/:id', async (req, res) => {
+    66	    try {
+    67	        let item = await taskModel.findByIdAndUpdate(req.params.id, req.body);
+    68	        await res.json(item);
+    69	    } catch (error) {
+    70	        console.log(error);
+    71	    }
+    72	})
+    73	
+    74	//============ DEFINING THE MODEL
+    75	app.get('/', (req, res) => {
+    76	    res.send("Hello World!!!")
+    77	});
+    78	
+    79	app.listen(3001);

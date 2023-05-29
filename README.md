@@ -1,6 +1,10 @@
-# 5.26.2023
+# 5.26.2023; 5.29.2023
 
-## TODOMATIC fullstack app
+## TODOMATIC fullstack app ONEFILE VERSION 2.0.0 (pending exact number). 
+1. branch : express-react-todomatic
+1. ONEFILE back-express 2.0.0; from grown up
+1. ONEFILE frontend: 3.2.0 from top down, started with full MDN version in main, and from zero in expres-react-app
+1. In folder numbered/back-express.txt and numbered/frontend.txt 
 
 ## DONE
 
