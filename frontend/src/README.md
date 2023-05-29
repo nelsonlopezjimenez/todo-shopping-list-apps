@@ -3,7 +3,8 @@
 ## version
 ### 0.1.0 fresh npx create-react-app
 ### 1.0.0 Beginning our React todo list
-### 1.1.0 Full app in one file before adding events
+### 1.1.0 Full app before adding events ONEFILE
+### 2.0.0 Events and state added, ONEFILE.
 ### 2.1.0 Componentizing our React app
 
 ## from https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning
@@ -73,3 +74,39 @@ export default Todo
 1. Componentizing the rest of the app NOT DONE!!!
 1. Importing all our components NOT DONE!!!!
 1. Summary: We've gone into some depth on how to break up the app nicely into components, and render them efficiently. 
+
+## React interactivity: Events and state
+
+1. Handling events
+1. Callback props: Things that happen in the <Form/> component will affect the list rendered in <App />. We can't pass data from child to parent. Instead, we can write a function in App that will expect some data from Form as an input, then pass the function to Form as a prop. Once we have the callback prop, we can call it inside the Form to send the right data to App. What results in the click event in the Form, is implemented in the App component. 
+```
+App(props){
+    function addTask(name){
+        alert(`About to add ${name}`)
+    }
+    return(
+        <Form addTask={addTask}>
+    )
+}
+Form(props){
+    function handleSubmit(e){
+        e.preventDefault();
+        props.addTask("Say something")
+    }
+    return(
+        <form onSubmit={handleSubmit}>
+    )
+}
+```
+1. State and the useState hook: Props come from the parent of a component. The <Form/> will not be inheriting a new name for the task; the <input > element lives directly inside the Form, so Form owns the input. We need to track it using state and be able to change it too. It is not possible to update the props a component receives; only to read them. 
+```
+function Form(props) {
+  const [name, setName] = useState("Use hooks!");  
+```
+We are setting the initial name value as "Use hooks!"; we are defining a function whose job is to modify name, called setName(); useState() returns these two things.
+1. Putting it all together: Adding a task
+1. Detour: counting tasks
+1. Completing task
+1. Deleting task
+1. Deleting task from state and UI
+1. Summary
