@@ -63,4 +63,4 @@ function Todo() {
 }
 export default Todo
 ```
-1.
+1. Copy/paste (write all at least once!!!!)
