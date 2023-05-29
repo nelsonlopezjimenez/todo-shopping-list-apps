@@ -3,7 +3,8 @@
 ## version
 ### 0.1.0 fresh npx create-react-app
 ### 1.0.0 Beginning our React todo list
-### 1.1.0 Componentizing our React app
+### 1.1.0 Full app in one file before adding events
+### 2.1.0 Componentizing our React app
 
 ## from https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning
 
@@ -64,3 +65,11 @@ function Todo() {
 export default Todo
 ```
 1. Copy/paste (write all at least once!!!!)
+1. Make a unique <Todo name="One" />
+1. is it completed? <Todo name="One" completed={true}/>
+1. Tasks as data.
+1. Rendering with iteration
+1. Unique keys <Todo name="One" completed={true} id={todo-0}/>
+1. Componentizing the rest of the app NOT DONE!!!
+1. Importing all our components NOT DONE!!!!
+1. Summary: We've gone into some depth on how to break up the app nicely into components, and render them efficiently. 
