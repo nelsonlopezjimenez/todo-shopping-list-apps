@@ -3,11 +3,13 @@ import React, { useState, useEffect } from "react";
 function App(props) {
   const [tasks, setTasks] = useState([]);
 
-  const URL = "http://localhost:3001/api/todos";
+  const URL = "http://localhost:3001/api/todos/";
+
   async function fetchTodos() {
     try {
       const list = await fetch(URL);
-      const data = await list.json(); console.log(data)
+      const data = await list.json();
+      console.log(data);
       return data;
     } catch (error) {
       console.log(error);
@@ -24,6 +26,7 @@ function App(props) {
       if (id === task._id) {
         // use object spread to make a new object
         // whose `completed` prop has been inverted
+        editTodo({...task, completed: !task.completed});
         return { ...task, completed: !task.completed };
       }
       return task;
@@ -44,26 +47,26 @@ function App(props) {
       />
     );
   });
-  async function addTodo(todo){
+  async function addTodo(todo) {
     try {
-        const item = await fetch(URL, {
-            method: 'POST', 
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(todo)
-        });
-        const data = await item.json();
-        return data;
+      const item = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(todo),
+      });
+      const data = await item.json();
+      return data;
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
-
   function addTask(name) {
     const newTask = { name: name, completed: false };
-    addTodo(newTask).then( data => setTasks([...tasks, newTask]));
+    addTodo(newTask);
+    setTasks([...tasks, newTask]);
   }
   //   const taskList = props.tasks.map((task) => <Todo />); // Rendering with iterations
 
@@ -72,33 +75,52 @@ function App(props) {
 
   async function deleteTodo(id) {
     try {
-        const result = await fetch(URL + id, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        return result;
+      const result = await fetch(URL + id, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      return result.url;
     } catch (error) {
-        console.log(error);
+      console.log(error);
     }
   }
 
   function deleteTask(id) {
-    deleteTodo(id).then( () => {
-        const remainingTasks = tasks.filter((task) => id !== task.id);
-        setTasks(remainingTasks);
-    })
+    deleteTodo(id).then((url) => {
+      console.log(url);
+    });
+    const remainingTasks = tasks.filter((task) => id !== task._id);
+    setTasks(remainingTasks);
   }
-  async function editTodo (id, newName){
-    console.log(id, newName)
+
+  async function editTodo(updatedTask) {
+    console.log(updatedTask);
+    try {
+      const result = await fetch(URL + updatedTask._id, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTask),
+      });
+      console.log(result.url);
+      return result.url;
+    } catch (error) {
+      console.log(error); // error triggered when port number was wrong
+    }
   }
   function editTask(id, newName) {
+    let updatedTask;
     const editedTaskList = tasks.map((task) => {
       // if this task has the same ID as the edited task
-      if (id === task.id) {
+      if (id === task._id) {
         //
-        return { ...task, name: newName };
+        updatedTask = { ...task, name: newName };
+        editTodo(updatedTask);
+        // return { ...task, name: newName };
+        return updatedTask;
       }
       return task;
     });

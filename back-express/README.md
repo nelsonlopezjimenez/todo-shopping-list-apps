@@ -2,6 +2,9 @@
 
 ## Reference: Full-Stack React Projects, Second Edition, Shama Hoque, www.packt.com
 
+# VERSIONS
+### 2.0.0 ONEFILE fully functional
+
 ## Steps
 
 1. See page 58 and beyond for instructions

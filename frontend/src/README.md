@@ -8,6 +8,7 @@
 ### 2.2.0 Functions addTask, toggle task, delete task ONEFILE
 ### 2.3.0 Added editTask
 ### 3.0.0 Integrate with backend express/mongo server
+### 3.2.0 display/list, deleteOne, editOne, edit completed functional ONEFILE
 
 
 ## from https://developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks/React_todo_list_beginning

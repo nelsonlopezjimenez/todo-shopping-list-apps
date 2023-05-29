@@ -2,6 +2,11 @@
 
 ## TODOMATIC fullstack app
 
+## CURRENT VERSION
+### 3.2.0
+1. express/mongo 2.0.0
+1. front/react 3.2.0
+
 ## DONE
 
 1. cloned todo-react todomatic from mdn.github.io/todo-react using https
