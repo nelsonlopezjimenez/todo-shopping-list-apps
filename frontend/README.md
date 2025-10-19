@@ -1,51 +1,16 @@
-# todo-react
+# React + Vite
 
-Sample todo app built with the React/ReactDOM framework. For the accompanying documentation, see
-[Understanding client-side JavaScript frameworks
-: React tutorials](https://wiki.developer.mozilla.org/en-US/docs/Learn/Tools_and_testing/Client-side_JavaScript_frameworks#React_tutorials).
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-For the live version, see https://mdn.github.io/todo-react/.
+Currently, two official plugins are available:
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Getting started
+## React Compiler
 
-To get this app running locally, you'll need to have [Node.js](https://nodejs.org/en/) and [Yarn](https://yarnpkg.com/getting-started/install) installed on your machine.
-In the project directory, you can run:
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-```bash
-yarn && yarn start
-```
+## Expanding the ESLint configuration
 
-More information about the available commands can be found in the [Contributing](CONTRIBUTING.md) guide.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-The following sections are recommended:
-
-- [Code Splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-- [Analyzing the Bundle Size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-- [Making a Progressive Web App](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-- [Advanced Configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-- [Deployment](https://facebook.github.io/create-react-app/docs/deployment)
-- [npm run build fails to minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-## Contributing
-
-Our project welcomes contributions from any member of our community.
-To get started contributing, please see our [Contributor Guide](CONTRIBUTING.md).
-
-By participating in and contributing to our projects and discussions, you acknowledge that you have read and agree to our [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## License
-
-This project is licensed under the [LICENSE](LICENSE).
-
-# VERSIONS
-
-## 0.1.0 TODOMATIC download from MDN web site
-## 1.0.0 TODOMATIC api fetch routes added: list/display, add/create, display/getOne, deleteOne, editOne.
+If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
