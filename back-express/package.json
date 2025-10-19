@@ -1,32 +1,32 @@
 {
-  "name": "back-express-with-mongo",
-  "version": "4.4.0",
-  "description": "Backend express server with mongo connect",
+  "name": "my-express",
+  "version": "1.0.0",
+  "description": "Class server for static academic materials: offline web sites, videos",
   "main": "index.js",
   "scripts": {
-    "development": "nodemon --exec ./node_modules/.bin/babel-node src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/nelsonlopezjimenez/my-express.git"
   },
   "keywords": [
     "express",
-    "mongo",
-    "babel"
+    "fullstack",
+    "frontend",
+    "backend"
   ],
   "author": "Nelson Lopez",
   "license": "ISC",
-  "devDependencies": {
-    "@babel/core": "^7.22.1",
-    "@babel/node": "^7.22.1",
-    "@babel/preset-env": "^7.22.2",
-    "nodemon": "^2.0.22"
+  "bugs": {
+    "url": "https://github.com/nelsonlopezjimenez/my-express/issues"
   },
+  "homepage": "https://github.com/nelsonlopezjimenez/my-express#readme",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
-    "express": "^4.18.2",
-    "helmet": "^7.0.0",
-    "marked": "^5.0.3",
-    "mongoose": "^7.2.1"
+    "ejs": "^3.1.10",
+    "express": "^4.21.1",
+    "marked": "^15.0.12",
+    "nodemon": "^3.1.7"
   }
 }
