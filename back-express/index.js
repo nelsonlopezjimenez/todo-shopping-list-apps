@@ -1,39 +1,32 @@
-const express = require('express')
+// ========= IMPORTS
+import express from "express";
+import cors from "cors";
+import itemRouter from './routes/routes.js'
 
-const { extname } = require('path')
-const cors = require('cors');
-const marked = require('marked');
 
+// =============== APP DECLARATION
 const app = express();
-const PORT = 22032
+const PORT = 3001;
 
-app.use(express.static('public'))
-app.use(express.static('views'))
-app.use(cors())
+// ================= PENDING TO EXTRACT OUT
 
 
-app.get('/', (req, res) => {
-    res.render('home.ejs')
-})
-app.get('/quarter1', (req, res) => {
-    res.render('week000.ejs')
-})
-app.get('/quarter2', (req, res) => {
-    res.render('quarter2/home.ejs')
-})
-app.get('/calendar', (req, res) => {
-    res.render('calendar000.ejs')
-})
-app.get('/youtube.nel', (req, res) => {
-    res.render('videos000.ejs')
-})
-app.get('/youtube.nel', (req, res) => {
-    res.render('videos000.ejs')
-})
-app.get('/cfc', (req, res) => {
-    res.render('cfc.ejs')
-})
+// ============== MIDDLEWARE
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(express.static('public'));
 
-app.listen(PORT, (req, res) => {
-    console.log(`listening on port ${PORT}`)
-})
+// ============== API ENDPOINTS
+app.use('/', itemRouter);
+
+app.get("/", (req, res) => {
+//   res.render('index.html');
+  res.send("<h1>Hello World</h1>");
+});
+
+
+app.listen(PORT, () => {
+  console.log("server running on port:", PORT)
+});
+

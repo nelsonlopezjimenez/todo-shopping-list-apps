@@ -4,14 +4,39 @@ import './App.css'
 const hardCodedtasks = [
   { name: 'This is One', completed: true, id: "abc" }
 ]
-
+const URL = "http://localhost:3001/api/todos"
 
 function App() {
-  const [tasks, setTasks] = useState(hardCodedtasks);
+  const [tasks, setTasks] = useState([]);
 
+  async function fetchTodos(URL) {
+    try {
+      const list = await fetch(URL);
+      const data = await list.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  async function addTodo(todo) {
+    try {
+      const item = await fetch(URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(todo),
+    });
+    const data = await item.json();
+    return data; 
+    } catch (error) {
+      console.log(error);
+    }
+  }
   function addTask(item) {
     const m = Math.floor(Math.random() * 9999 + 1000);
     const newTask = { name: item, completed: false, id: 'abc' + m };
+    addTodo(newTask);
     setTasks([...tasks, newTask])
   }
 
@@ -32,11 +57,16 @@ function App() {
     setTasks(editedTaskList)
   }
 
-  const taskList = tasks.map((item) => {
+  const taskList = tasks?.map((item) => {
     return (
       <Todo key={item.id} name={item.name} completed={item.completed} id={item.id} deleteTask={deleteTask} editTask={editTask} />
     )
   });
+
+  useEffect(() => {
+    const data = fetchTodos();
+    setTasks(data)
+  }, [fetchTodos]);
 
   return (
     <>
@@ -121,7 +151,7 @@ function Todo(props) {
     </div>
   );
 
- return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
+  return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
 }
 
 function Form(props) {

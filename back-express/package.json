@@ -1,14 +1,16 @@
 {
-  "name": "my-express",
-  "version": "1.0.0",
-  "description": "Class server for static academic materials: offline web sites, videos",
+  "name": "todo-shopping-list-backend-express-app",
+  "version": "2.0.0",
+  "description": "fullstack todo shopping list app express backend, vite-react frontend",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "start": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/nelsonlopezjimenez/my-express.git"
+    "url": "git@github.com:nelsonlopezjimenez/todo-shopping-list-apps.git"
   },
   "keywords": [
     "express",
@@ -27,6 +29,7 @@
     "ejs": "^3.1.10",
     "express": "^4.21.1",
     "marked": "^15.0.12",
+    "mongoose": "^8.19.1",
     "nodemon": "^3.1.7"
   }
 }

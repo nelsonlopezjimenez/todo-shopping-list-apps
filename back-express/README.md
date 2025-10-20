@@ -1,39 +1,109 @@
-# LOG
+# Express backend server with mongo => todo-shopping-list-backend-express-app
 
-## Remember
-1. windows shortcuts can be copied/moved and still recognized
-1. windows mklink not
-1. windows mklink /D when try to copy, it grabs everything.
-## 11.1.2024
+## 10.20.2025
+1. Version 2.0.0
+1. mongoose installed
+1. src folder content moved to backend root
+1. in index.js PORT var declared initialized to 3001
+1. /populate route added to add todo items to todomatic collection
+1. 
 
-1.  Originally my-express was in public/canvas_file_caches/githubmine location but there was a warning that the owner of the folder was different from the current user. 
-1. I decided to start from scratch with a new repository and work on documents folder
-1. ssh-keygen -t ed25519 -C "usergolden25@canvas.ed"
-1. config file in .ssh : Host github User nelsonlopezjimenez IdentityFile in ssh id_ed25519
-1. Copied and pasted all except node_modules and dot git because it did not want to run. But when it did it gave too many warning about deprecated packages. 
-1. Also, when I tried to copy/paste the symlinks in the my-express/public folder it was trying to copy everything. Not sure how git handles symlinks but I will have to recreate them and when pulling from github see what happens with the symlinks in the public folder.
-1. npm install express, cors
-1. git config --global user.email and user.name added
+## Reference: Full-Stack React Projects, Second Edition, Shama Hoque, www.packt.com
 
-## in the laptop
+## Steps
 
-1. Keep data in public/bin folder and  create shortcuts and just  move them or make more copies. It apparently recognize them, so no need to open command prompt to create mklinks.
-1. Same for zeal: do not move the docfiles. Execute zeal from c/programfiles location. Then navigate to preferences tab and select the location in public folder
-1. Shortcut were created for public/bin/npm-cache, public/bin/npmversion/npm-4.24.2024 move to roaming, and public/bin/verdaccio shortcut and move to roaming.
-1. verdaccio run with no problem version 5.11. It is not the most updated, but the version 5.30 showed issues and I have not tried even version 6
+1. See page 58 and beyond for instructions
+1. npm init -> generate the package.json file with metadata about your app
+1. In order to use ES6+ latest JS features we need Babel modules to convert ES6+ into older versions of JS
+1. Babel: npm install @babel/core @babel/node @babel/preset-env nodemon --save-dev
+1. edit .babelrc:
+```
+{
+    "presets" : [
+        "@babel/preset-env"
+    ]
+}
+```
+1. Nodemon: to automatically restart the Node server as we update the code during development. 
+1. npm install nodemon
+1. edit package.json file script:
+```
+...
+"scripts" : {
+    "development": "nodemon --exec ./node_modules/.bin/babel-node index.js",
+}
+```
+1. npm install express cookie-parser helmet cors mongoose
+1. helmet: middleware to help secure the app by setting various HTTP headers.
+1. cors: middleware to enable cross-origin resource sharing (CORS)
+1. lodash: library for manipulation of arrays and objects (page76);
 
-## Question about mklinks
+## NOTES
+1. To avoid using postman, there is the syntax for curl:
+```
+curl -X GET http://localhost:3001/api/todos = list/display all records
+curl -d "name=nameofitem" -X POST http://localhost:3001/api/todos = create/add new item
+curl -d "name=newName&completed=true" -X PUT http://localhost:3001/api/todos/uniqueId
+curl -X DELETE http://localhost:3001/api/todos/uniqueId
+curl -X GET  http://localhost:3001/api/todos/uniqueId
+```
+## Versions
 
-1. move or to recreate?
-1. In %public%/my-express/public/example.nel symlink target in public/videos/ so I cloned example.nel.git repository in that location and now it is working.
-1. in %userprofile%/Documents/GITHUBREPOS/my-express/pubic is empty and it will stay like that for  a while until it becomes clear how link, symlinks or shortcuts are dealt with.
+### 1.0.0 : npm init 
+### 2.0.0 : one file everything, OK
+### 3.0.0 : one file, 
+1. app.get(URL, listTask), 
+1. app.post(URL, addTask), 
+1. app.get(URL/:id, getOne),
+1. app.delete(URL/:id, deleteOne), 
+1. app.put(URL/:id, editOne)
+#### 3.1.0
+callback routes extracted to routes.js file. I had to transfer also the mongo setup because of the model. Callback objects imported * as api and accessed as api.listask, api.addTask, api.getOne, api.deleteOne, api.editOne.
+#### 3.2.0
+Import syntax for api call changed to destructuring option: import { listTask, addTask, getOne, deleteOne, editOne } and used straight in index.js. Also, marked added to the project to be able to render md files. The html obj with the whole code for README.md passed as a string render at the root route '/'. I had to delete the pre code with 3 backticks, as well as curly braces, straight braces, colons. Pending import the code highligter library. 
 
+1. 3.2.1 export from { listTask, addTask, getOne, deleteOne, editOne } to export.listTasks, export.addTask, export.getOne, etc
 
-# README for my-express server on new laptop image (2023)
+### 3.3.0
+1. 3.3.1 : mongoose setup taken from routes.js to taskModel.js and exported as "export default mongoose.model('Todo', task)" and imported into routes.js as 'import  taskModel  from './taskModel';'
+1. 3.3.2 export "export const taskModel = mongoose.model("Todo", task);" and routes.js/import import { taskModel } as well as just imort taskModel both worked. On the other hand, "const taskModel ...." then export default taskModel did not work. 
 
-## path to githubmine: /c/users/public/CANVAS_FILE_CACHES/my-express/.git
-
-## path to local: C:\Users\adm\Documents\GIT_LOCAL_REPOS\my-express\public
-
-## git init on 11.8.2023
-
+### 4.0.0
+1. 4.1.0 : Folder and file structure from page 58
+```
+root/
+  |-- node_modules/
+  |-- config
+  |-- package.json
+  |-- .babelrc
+  |-- .env
+  |-- public/index.html
+  |-- src
+      |-- index.js
+      |-- routes.js
+      |-- taskModel.js
+      |-- README.md
+```
+1. 4.2.0
+```
+root/
+  |-- node_modules/
+  |-- config
+  |-- package.json
+  |-- .babelrc
+  |-- .env
+  |-- public/index.html
+  |-- src
+      |-- controllers/
+         |-- item.controller.js
+      |-- helpers/
+         |-- dbErrorHandler.js
+      |-- models/
+         |-- item.model.js
+      |-- routes/  
+         |-- item.routes.js
+      |-- index.js
+      |-- README.md
+```
+1. 4.3.0 : using dotenv and config.js file at the root. Problems with syntax when exporting each individual callbak or export default and destructuring
+1. 4.4.0 : added frontend react
