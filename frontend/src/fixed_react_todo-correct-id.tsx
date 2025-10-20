@@ -1,6 +1,4 @@
 import { useState, useEffect } from 'react'
-import './App.css'
-
 
 const URL = "http://localhost:3001/api/todos"
 
@@ -9,8 +7,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
-   // Fetch todos function
+  // Fetch todos function
   async function fetchTodos() {
     try {
       const response = await fetch(URL);
@@ -30,21 +27,28 @@ function App() {
       throw error;
     }
   }
+
+  // Add todo to database
   async function addTodo(todo) {
     try {
-      const item = await fetch(URL, {
+      const response = await fetch(URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(todo),
       });
-      const data = await item.json();
+      if (!response.ok) {
+        throw new Error('Failed to add todo');
+      }
+      const data = await response.json();
       return data;
     } catch (error) {
-      console.log(error);
+      console.error('Error adding todo:', error);
+      throw error;
     }
   }
+
   // Add task with async handling
   async function addTask(item) {
     const newTask = { name: item, completed: false };
@@ -63,36 +67,22 @@ function App() {
     }
   }
 
-
+  // Delete task - changed != to !==
   function deleteTask(idDel) {
-    const afterDel = tasks.filter(item => item._id != idDel);
-    setTasks(afterDel)
+    const afterDel = tasks.filter(item => item.id !== idDel);
+    setTasks(afterDel);
   }
 
+  // Edit task
   function editTask(idEd, newName) {
-    let updatedTask;
     const editedTaskList = tasks.map(task => {
       if (task.id === idEd) {
-        updatedTask = { ...task, name: newName }
-        return updatedTask;
+        return { ...task, name: newName };
       }
-      return task
-    })
-    setTasks(editedTaskList)
+      return task;
+    });
+    setTasks(editedTaskList);
   }
-
-  const taskList = tasks?.map((item) => {
-    return (
-      <Todo 
-        key={item.id || item._id} 
-        name={item.name} 
-        completed={item.completed} 
-        id={item.id || item._id} 
-        deleteTask={deleteTask} 
-        editTask={editTask} 
-      />
-    );
-  });
 
   // FIXED: useEffect with proper async handling and empty dependency array
   useEffect(() => {
@@ -109,18 +99,40 @@ function App() {
         setLoading(false);
       }
     }
-
+    
     loadTodos();
   }, []); // Empty dependency array - runs only once on mount
+
+  const taskList = tasks?.map((item) => {
+    return (
+      <Todo 
+        key={item.id || item._id} 
+        name={item.name} 
+        completed={item.completed} 
+        id={item.id || item._id} 
+        deleteTask={deleteTask} 
+        editTask={editTask} 
+      />
+    );
+  });
+
+  if (loading) {
+    return <div>Loading todos...</div>;
+  }
+
+  if (error) {
+    return <div style={{ color: 'red' }}>Error: {error}</div>;
+  }
 
   return (
     <>
       <Form addTask={addTask} />
-      <Todo name="This is hardcoded" completed={false} />
-      {taskList}
+      <div>Total tasks: {tasks.length}</div>
+      {tasks.length === 0 ? <p>No tasks yet. Add one above!</p> : <ul>{taskList}</ul>}
     </>
-  )
+  );
 }
+
 function Todo(props) {
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState('');
@@ -128,8 +140,12 @@ function Todo(props) {
   function handleChange(e) {
     setNewName(e.target.value);
   }
+
   function handleSubmit(e) {
     e.preventDefault();
+    if (!newName.trim()) {
+      return;
+    }
     props.editTask(props.id, newName);
     setNewName("");
     setEditing(false);
@@ -184,11 +200,7 @@ function Todo(props) {
         <button
           type="button"
           className="btn btn__danger"
-          onClick={() => {
-            console.log(props.id)
-            props.deleteTask(props.id)
-          }
-          }
+          onClick={() => props.deleteTask(props.id)}
         >
           Delete <span className="visually-hidden">{props.name}</span>
         </button>
